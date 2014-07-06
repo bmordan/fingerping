@@ -1,4 +1,4 @@
 /* CSS declarations go here */
 #delta{font-size:2em;}
 #pad{width:90%;height:400px;background:#11007A;margin:auto;color:#fff;padding:12px;}
-#markerO,#markerD{width:20px;height:20px;background:#fff;position:absolute;}
+#markerO{width:20px;height:20px;background:#fff;position:absolute;}
