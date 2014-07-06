@@ -4,7 +4,13 @@ if (Meteor.isClient) {
     
     var x = e.currentTarget.children.markerO.offsetLeft;
     
-    if(dir === 'pos'){
+    if(dir === 'stop'){
+      setTimeout(function(){
+        e.currentTarget.children.markerO.style.left = '0px';
+        e.currentTarget.children.markerO.style.top = e.target.clientHeight/2 + 'px';
+        return;
+      },vx);   
+    }else if(dir === 'pos'){
       if(x < e.currentTarget.offsetWidth+30){
       
         var nx = x += 5;
@@ -12,9 +18,12 @@ if (Meteor.isClient) {
         setTimeout(function(){
           step(e,vx,dir)
         },vx);
+        
       }else{
+        
         dir = 'neg';
         step(e,vx,dir);
+        
       }
     }else if(dir === 'neg'){
       if(x > 20){
@@ -24,14 +33,13 @@ if (Meteor.isClient) {
         setTimeout(function(){
           step(e,vx,dir)
         },vx);
-      
+        
       }else{
+        
         dir = 'pos';
         step(e,vx,dir);
+        
       }
-    }else if(dir === 'stop'){
-      e.currentTarget.children.markerO.style.left = '0px';
-      e.currentTarget.children.markerO.style.top = e.target.clientHeight/2 + 'px';
     }
     
   };//end of step
@@ -39,6 +47,7 @@ if (Meteor.isClient) {
 
 
   Template.pad.rendered = function(template){
+    
     var delta = $('#delta');
     var el = this.find('#pad');
     
@@ -54,15 +63,26 @@ if (Meteor.isClient) {
         var vy = e.gesture.velocityX;
         if(vx === 0){
           vx = 0.1;
-        }  
-      step(e,vx,'pos');
+        }
+        
+        if(dx > 0){
+          var dir = 'pos';
+          e.currentTarget.children.markerO.style.left = e.currentTarget.children.markerO.offsetLeft + 'px';
+          e.currentTarget.children.markerO.style.top = e.target.clientHeight/2 + 'px';
+        }else{
+          var dir = 'neg';
+          e.currentTarget.children.markerO.style.left = e.currentTarget.children.markerO.offsetLeft + 'px';
+          e.currentTarget.children.markerO.style.top = e.target.clientHeight/2 + 'px';
+        }
+
+      //step triggers animation  
+      step(e,vx,dir);
+      
     });
     
     Hammer(el).on('doubletap', function(e){
       e.gesture.preventDefault();
-      var dir = 'stop';
-      var vx = 0;
-      step(e,vx,dir);
+      step(e,100,'stop');
     });
     
   };
