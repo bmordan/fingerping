@@ -21,62 +21,46 @@ if (Meteor.isClient) {
     
     Hammer(el).on('dragend', function(e){
       
-      function moveUpRight(e){
-        var v = ((e.gesture.velocityX+e.gesture.velocityY)/2)*100;
-        var a = Math.round(e.gesture.angle)*-1;
-        var clientWidthSplitRight = e.currentTarget.clientWidth - e.currentTarget.children.markerO.offsetLeft;
-        var clientWidthSplitLeft = e.currentTarget.children.markerO.offsetLeft;
-        var movex = v/clientWidthSplitLeft;
-        
-        if(e.currentTarget.children.markerO.offsetLeft > e.currentTarget.clientWidth){
-          return;
-        }else{
-          console.log(a);
-          console.log(clientWidthSplitRight+'|'+movex);
-          console.log(e.currentTarget.children.markerO.style.left);
-          console.log(e.currentTarget.children.markerO.offsetLeft);
-          console.log(v);
-        }
+      function move(e){
+        var vx = Math.round(e.gesture.velocityX*100);
+        var vy = Math.round(e.gesture.velocityY*100);
+        e.currentTarget.children.markerO.style.left += vx + 'px';
+        e.currentTarget.children.markerO.style.top += vy + 'px';
       };
       
-      console.log(e);
-      var ox = e.gesture.touches[0].pageX-10;
-      var oy = e.gesture.touches[0].pageY-10;
+      //console.log(e);
       var a = Math.round(e.gesture.angle);
-      var v = (e.gesture.velocityX+e.gesture.velocityX)*10;
       var dir = e.gesture.direction;
-      var cw = e.currentTarget.clientWidth;
-      var ch = e.currentTarget.clientHeight;
+      var w = e.currentTarget.clientWidth;
+      var h = e.currentTarget.clientHeight;
+      var ox = e.currentTarget.children.markerO.offsetLeft;
+      var oy = e.currentTarget.children.markerO.offsetTop;
+      var vx = Math.round(e.gesture.velocityX*100);
+      var vy = Math.round(e.gesture.velocityY*100);
+      var dt = e.timeStamp
+      //visual deltas
+      
+      
       if(a < 0 && dir === 'right'){
         
         delta[0].innerHTML = '+x+y ';
-        var X = cw - ox;
-        var Y = Math.tan(a)*X; Y = Y*-1;
-        moveUpRight(e);
-      
+        move(e);
+       
       }else if(a < 0 && dir === 'left'){
         
         delta[0].innerHTML = '-x+y ';
-        delta[0].innerHTML += ox;
-
-      
+  
       }else if(a > 0 && dir === 'right'){
         
         delta[0].innerHTML = '+x-y ';
-        delta[0].innerHTML += ox;
-
-      
+        
       }else if(a > 0 && dir === 'left'){
         
         delta[0].innerHTML = '-x-y ';
-        delta[0].innerHTML += ox;
-
       
       }
-      e.currentTarget.children.markerO.style.left = ox + 'px';
-      e.currentTarget.children.markerO.style.top = oy + 'px';
       
-      
+      e.currentTarget.children.delta.innerHTML += 'ox:'+ox+' oy:'+oy+' vx:'+vx+' vy:'+vy+' w:'+w+' h:'+h;
       
     });
     
