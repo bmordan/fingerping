@@ -109,7 +109,7 @@ if (Meteor.isClient) {
       
     });
     
-    Hammer(el).on('swipe', function(e){
+    Hammer(el).on('hold', function(e){
       move(e,0,'stop');
     });
     
