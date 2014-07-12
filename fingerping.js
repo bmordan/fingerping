@@ -1,17 +1,17 @@
 if (Meteor.isClient) {
 
   function move(e,v,dir){
-    
     var x = e.currentTarget.children.markerO.offsetLeft;
     var y = e.currentTarget.children.markerO.offsetTop;
-    var dv = 60;
+    var dv = 3;
+    
     switch(dir){
       case 'rightup':
-        if(x > e.currentTarget.clientWidth && y > 0){
+        if(x > e.currentTarget.clientWidth+30 && y > 0){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'leftup');},dv);
-        }else if(y < 0 && x < e.currentTarget.clientWidth){
+        }else if(y < 0 && x < e.currentTarget.clientWidth+30){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'rightdown');},dv);
@@ -20,13 +20,13 @@ if (Meteor.isClient) {
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'rightup');},dv);
         }
-        break;
+      break;
       case 'rightdown':
-        if(x > e.currentTarget.clientWidth && y > 0){
+        if(x > e.currentTarget.clientWidth+30 && y > 0){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'leftdown');},dv);
-        }else if(y > e.currentTarget.clientHeight && x < e.currentTarget.clientWidth){
+        }else if(y > e.currentTarget.clientHeight && x < e.currentTarget.clientWidth+30){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'rightup');},dv);
@@ -35,13 +35,13 @@ if (Meteor.isClient) {
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'rightdown');},dv);
         }
-        break;
+      break;
       case 'leftup':
-        if(x < 0 && y > 0){
+        if(x < 40 && y > 0){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'rightup');},dv);
-        }else if(y < 0 && x > 0){
+        }else if(y < 0 && x > 40){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'leftdown');},dv);
@@ -50,13 +50,13 @@ if (Meteor.isClient) {
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'leftup');},dv);
         }
-        break;
+      break;
       case 'leftdown':
-        if(x < 0 && y > 0){
+        if(x < 40 && y > 0){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'rightdown');},dv);
-        }else if(y > e.currentTarget.clientHeight && x > 0){
+        }else if(y > e.currentTarget.clientHeight && x > 40){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'leftup');},dv);
@@ -65,16 +65,11 @@ if (Meteor.isClient) {
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'leftdown');},dv);
         }
-        break;
+      break;
       case 'stop':
-        var x = e.currentTarget.clientWidth / 2;
-        var y = e.currentTarget.clientHeight / 2;
-        e.currentTarget.children.markerO.style.left = (x-10) + 'px';
-        e.currentTarget.children.markerO.style.top = (y-10) + 'px';
-        return;
-        break;       
+        setTimeout(function(){return false;},dv);
+      break;       
     }
-    
   };
 
   Template.pad.rendered = function(template){
@@ -89,11 +84,10 @@ if (Meteor.isClient) {
     });
     
     Hammer(el).on('dragend', function(e){
-      
-      
+        
       var a = Math.round(e.gesture.angle);
       var dir = e.gesture.direction;
-      var v = ((e.gesture.velocityX+e.gesture.velocityY)/2)*100;
+      var v = ((e.gesture.velocityX+e.gesture.velocityY)/2)*10;
       
       if(a < 0 && dir === 'right'){
         move(e,v,'rightup');
@@ -104,12 +98,10 @@ if (Meteor.isClient) {
       }else if(a > 0 && dir === 'left'){
         move(e,v,'leftdown');
       }
-      
-      //e.currentTarget.children.delta.innerHTML = 'ox:'+ox+' oy:'+oy+' v:'+v+' a:'+a+' vx:'+vx+' vy:'+vy+' w:'+w+' h:'+h;
-      
+
     });
     
-    Hammer(el).on('hold', function(e){
+    Hammer(el).on('hold',function(e){
       move(e,0,'stop');
     });
     
