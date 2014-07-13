@@ -7,11 +7,11 @@ if (Meteor.isClient) {
     
     switch(dir){
       case 'rightup':
-        if(x > e.currentTarget.clientWidth+30 && y > 0){
+        if(x > e.currentTarget.clientWidth+20 && y > 0){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'leftup');},dv);
-        }else if(y < 0 && x < e.currentTarget.clientWidth+30){
+        }else if(y < 0 && x < e.currentTarget.clientWidth+20){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'rightdown');},dv);
@@ -22,11 +22,11 @@ if (Meteor.isClient) {
         }
       break;
       case 'rightdown':
-        if(x > e.currentTarget.clientWidth+30 && y > 0){
+        if(x > e.currentTarget.clientWidth+20 && y > 0){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'leftdown');},dv);
-        }else if(y > e.currentTarget.clientHeight && x < e.currentTarget.clientWidth+30){
+        }else if(y > e.currentTarget.clientHeight && x < e.currentTarget.clientWidth+20){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'rightup');},dv);
@@ -37,11 +37,11 @@ if (Meteor.isClient) {
         }
       break;
       case 'leftup':
-        if(x < 40 && y > 0){
+        if(x < 20 && y > 0){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'rightup');},dv);
-        }else if(y < 0 && x > 40){
+        }else if(y < 0 && x > 20){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'leftdown');},dv);
@@ -52,11 +52,11 @@ if (Meteor.isClient) {
         }
       break;
       case 'leftdown':
-        if(x < 40 && y > 0){
+        if(x < 20 && y > 0){
           e.currentTarget.children.markerO.style.left = (x+v) + 'px';
           e.currentTarget.children.markerO.style.top = (y+v) + 'px';
           setTimeout(function(){move(e,v,'rightdown');},dv);
-        }else if(y > e.currentTarget.clientHeight && x > 40){
+        }else if(y > e.currentTarget.clientHeight && x > 20){
           e.currentTarget.children.markerO.style.left = (x-v) + 'px';
           e.currentTarget.children.markerO.style.top = (y-v) + 'px';
           setTimeout(function(){move(e,v,'leftup');},dv);
